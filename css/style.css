@@ -1,97 +1,110 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;1,900&display=swap');
-*{
-    font-family: 'Poppins',cursive;
+* {
+    font-family: 'Poppins', cursive;
 }
-body{
+
+body {
     color: azure;
     width: 100%;
     height: 82vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Cambiar de center a flex-start para empezar desde arriba */
     background-color: black;
-    /* padding-top: -30; */
+    padding-top: 50px; /* Añadir padding superior para bajar el contenido */
 }
 
-.botones{
-    padding: 9px;
-    border-radius: 80px;
+.botones {
+    padding: 10px; /* Reducir el padding */
+    border-radius: 40px; /* Ajustar el radio del borde */
     background-color: transparent;
     border: none;
+    font-size: 1rem; /* Reducir el tamaño de la fuente */
+    width: 160px; /* Ancho fijo más pequeño */
+    text-align: center;
+    margin: 10px 0; /* Espacio entre botones */
 }
 
-.botones a{
+.botones a {
     background-color: #0a2be9;
-    padding: 9px;
-    border-radius: 80px;
-    -webkit-border-radius: 80px;
-    -moz-border-radius: 80px;
-    -ms-border-radius: 80px;
-    -o-border-radius: 80px;
-
+    padding: 10px;
+    border-radius: 40px;
+    text-decoration: none;
+    color: white;
+    display: block;
+    text-align: center;
 }
 
-.botones a:focus{
+.botones a:focus {
     background-color: rgb(50, 194, 194);
 }
 
-.greetings{
-    font-size: 7rem;
+.greetings {
+    font-size: 5rem; /* Reducir el tamaño de las letras */
     font-weight: 900;
+    margin-bottom: 20px; /* Añadir margen inferior */
 }
-.greetings > span{
+
+.greetings > span {
     animation: glow 2.5s ease-in-out infinite;
 }
-@keyframes glow{
-    0%, 100%{
+
+@keyframes glow {
+    0%, 100% {
         color: #fff;
         text-shadow: 0 0 12px #39c6d6, 0 0 50px #39c6d6, 0 0 100px #39c6d6;
     }
-    10%, 90%{
+    10%, 90% {
         color: #111;
         text-shadow: none;
     }
 }
-.greetings > span:nth-child(2){
-    animation-delay: .2s ;
+
+.greetings > span:nth-child(2) {
+    animation-delay: .2s;
 }
-.greetings > span:nth-child(3){
-    animation-delay: .4s ;
+
+.greetings > span:nth-child(3) {
+    animation-delay: .4s;
 }
-.greetings > span:nth-child(4){
+
+.greetings > span:nth-child(4) {
     animation-delay: .6s;
 }
-.greetings > span:nth-child(5){
+
+.greetings > span:nth-child(5) {
     animation-delay: .8s;
 }
-.greetings > span:nth-child(6){
+
+.greetings > span:nth-child(6) {
     animation-delay: 1s;
 }
 
-.description{
-    font-size: 1.5rem;
+.description {
+    font-size: 1.2rem; /* Reducir el tamaño del texto de descripción */
     margin-bottom: 20px;
+    text-align: center;
 }
 
-.button a{
-    text-decoration: none;
-    font-size: 1rem;
-    color: #111;
-}
-
-@media screen and (max-width:574px){
-    .greetings{
-        display: block;
-        font-size: 4rem;
+@media screen and (max-width: 574px) {
+    .greetings {
+        font-size: 3rem; /* Reducir aún más en pantallas pequeñas */
         font-weight: 800;
         text-align: center;
     }
-    .description{
-        font-size: 2rem;
+
+    .description {
+        font-size: 1.5rem; /* Ajuste para pantallas pequeñas */
+    }
+
+    .botones {
+        font-size: 0.9rem; /* Reducir el tamaño de los botones en pantallas pequeñas */
+        width: 140px; /* Ancho más pequeño para pantallas pequeñas */
     }
     
-    .button a{
-        font-size: 1rem;
+    iframe {
+        width: 100%; /* Hacer iframe responsivo */
+        height: auto;
     }
 }
