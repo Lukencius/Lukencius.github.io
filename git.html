@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería Glamurosa en Rosa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fce4ec;
+            --text-color: #880e4f;
+            --card-bg: #fff0f5;
+            --card-shadow: 6px 6px 12px #e6c8d4, -6px -6px 12px #fff;
+            --accent-color: #ff4081;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            margin: 0;
+            transition: background-color 0.3s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(136, 14, 79, 0.1);
+            color: var(--accent-color);
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 2rem;
+        }
+
+        .image-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            animation: fadeIn 0.6s ease forwards;
+            opacity: 0;
+            position: relative;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 8px 8px 16px #e6c8d4, -8px -8px 16px #fff;
+        }
+
+        .image-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(255,64,129,0), rgba(255,64,129,0.2));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-card:hover::before {
+            opacity: 1;
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .image-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(136, 14, 79, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .close-lightbox:hover {
+            transform: rotate(90deg);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
+
+        .loading::after {
+            content: '';
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3e5f5;
+            border-top: 5px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Estilos para el footer */
+        footer {
+            background: linear-gradient(135deg, #ff9ff3, #fec3a6);
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: auto;
+            width: 100%;
+            max-width: 1200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #880e4f;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Efectos de brillitos y destellos */
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 4s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .glitter {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .glitter::before, .glitter::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle, #fff 10%, transparent 10%),
+                radial-gradient(circle, #fff 10%, transparent 10%);
+            background-position: 0 0, 5px 5px;
+            background-size: 10px 10px;
+            animation: glitter 4s linear infinite;
+        }
+
+        .glitter::after {
+            animation-delay: -2s;
+            animation-duration: 6s;
+        }
+
+        @keyframes glitter {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+            100% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <h1><u>GALERIA DE MI AMORCITO SUPER BELLA</u></h1>
+    <div class="gallery" id="imageGallery">
+        <div class="loading"></div>
+    </div>
+    <div class="lightbox" id="lightbox">
+        <span class="close-lightbox" id="closeLightbox">&times;</span>
+        <img src="" alt="Imagen ampliada" id="lightboxImage">
+    </div>
+    <footer>
+        <div class="glitter"></div>
+        <p class="footer-text">Éstas son algunas de las fotos de mi amorcito que yo tanto adoro.
+           <br> Cómo amo a mi princesa hermosa <3
+        </p>
+    </footer>
+
+    <script>
+        const gallery = document.getElementById('imageGallery');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const closeLightbox = document.getElementById('closeLightbox');
+
+        const baseUrl = 'https://raw.githubusercontent.com/Lukencius/Lukencius.github.io/main/ftos/';
+        const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        const maxImages = 50;
+
+        function loadImages() {
+            let loadedImages = 0;
+            for (let i = 1; i <= maxImages; i++) {
+                for (const ext of imageExtensions) {
+                    const imageUrl = `${baseUrl}${i}.${ext}`;
+                    const img = new Image();
+                    img.onload = function() {
+                        createImageCard(this.src, i);
+                        loadedImages++;
+                        if (loadedImages === 1) {
+                            gallery.innerHTML = ''; // Remove loading indicator
+                        }
+                    };
+                    img.onerror = function() {
+                        // Si la imagen no se carga, la ignoramos
+                    };
+                    img.src = imageUrl;
+                }
+            }
+        }
+
+        function createImageCard(src, index) {
+            const card = document.createElement('div');
+            card.className = 'image-card';
+            card.style.animationDelay = `${index * 0.1}s`;
+
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `Imagen ${index}`;
+            img.loading = 'lazy';
+
+            card.appendChild(img);
+            gallery.appendChild(card);
+
+            card.addEventListener('click', () => {
+                lightboxImage.src = src;
+                lightbox.style.display = 'flex';
+            });
+        }
+
+        closeLightbox.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+                lightbox.style.display = 'none';
+            }
+        });
+
+        // Función para crear brillitos
+        function createSparkles() {
+            const footer = document.querySelector('footer');
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.width = `${Math.random() * 5 + 2}px`;
+                sparkle.style.height = sparkle.style.width;
+                sparkle.style.left = `${Math.random() * 100}%`;
+                sparkle.style.top = `${Math.random() * 100}%`;
+                sparkle.style.animationDuration = `${Math.random() * 2 + 2}s`;
+                sparkle.style.animationDelay = `${Math.random() * 4}s`;
+                footer.appendChild(sparkle);
+            }
+        }
+
+        loadImages();
+        createSparkles();
+    </script>
+</body>
+</html>
