@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta para mi princesa</title>
+    <link rel="icon" href="img/flowers.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff69b4;
+            --secondary-color: #ffb6c1;
+            --bg-color: #fff0f5;
+            --letter-bg: #fff;
+            --envelope-bg: #ffc0cb;
+            --text-color: #4a0e1c;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--bg-color);
+            font-family: 'Caveat', cursive;
+            overflow: hidden;
+            transition: background-color 0.5s ease;
+            background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff9999' fill-opacity='0.1'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background-color: var(--envelope-bg);
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.5s ease;
+        }
+
+        .envelope:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 50%, var(--secondary-color) 50%);
+            transition: all 0.5s ease;
+        }
+
+        .envelope:after {
+            content: '❤';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: var(--primary-color);
+            opacity: 0.5;
+        }
+
+        .envelope.open:before {
+            transform: translateY(-100%);
+        }
+
+        .letter {
+            position: absolute;
+            width: 260px;
+            height: 160px;
+            background-color: var(--letter-bg);
+            padding: 20px;
+            transition: all 0.8s ease;
+            overflow-y: auto;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            font-size: 1em;
+            line-height: 1.6;
+            text-align: left;
+            background-image: 
+                linear-gradient(90deg, rgba(255,105,180,0.1) 1px, transparent 1px),
+                linear-gradient(rgba(255,105,180,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 20;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
+            top: 50%;
+            left: 50%;
+            color: var(--text-color);
+        }
+
+        .letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://picsum.photos/2000/2000?random=1');
+            background-size: cover;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .envelope.open ~ .letter {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            width: 80vw;
+            max-width: 600px;
+            height: 80vh;
+            max-height: 800px;
+        }
+
+        .heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: var(--primary-color);
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .heart:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .envelope.open .heart {
+            display: none;
+        }
+
+        .btn {
+            position: fixed;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 25px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 30;
+            font-family: 'Dancing Script', cursive;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            background-color: #ff1493;
+            transform: scale(1.05);
+        }
+
+        .open-btn {
+            bottom: 30px;
+            left: 30px;
+        }
+
+        .close-btn {
+            top: 30px;
+            right: 30px;
+            display: none;
+        }
+
+        .envelope.open ~ .close-btn {
+            display: block;
+        }
+
+        .envelope.open ~ .open-btn {
+            display: none;
+        }
+
+        .envelope.expanded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            z-index: 40;
+        }
+
+        body.dark-mode {
+            --bg-color: #4a0e1c;
+            --letter-bg: #69121f;
+            --envelope-bg: #8b1e3f;
+            --text-color: #ffd1dc;
+        }
+
+        @media (max-width: 768px) {
+            .envelope.open ~ .letter {
+                width: 90vw;
+                height: 70vh;
+            }
+            .letter {
+                font-size: 0.9em;
+                padding: 15px;
+            }
+            .btn {
+                font-size: 1.2em;
+                padding: 10px 20px;
+            }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .envelope {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart-particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-color);
+            clip-path: path("M5,0 A5,5,0,0,1,10,5 A5,5,0,0,1,5,10 A5,5,0,0,1,0,5 A5,5,0,0,1,5,0 Z");
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌓</button>
+    <div class="envelope">
+        <div class="heart" onclick="toggleEnvelope()">♥</div>
+    </div>
+    <div class="letter"></div>
+    <button class="btn open-btn" onclick="openEnvelope()">Abrir</button>
+    <button class="btn close-btn" onclick="closeEnvelope()">Cerrar</button>
+    <div class="hearts"></div>
+
+    <script>
+        const loveMessage = `
+<p>Feliz cumpleaños, mi princesa hermosa <3</p>  
+<p>Escribo esta carta porque sé que te hace ilusión, además de que quería decirte unas palabras tan hermosas como tú. Espero que la pases súper bien en este día; te mereces toda la felicidad del mundo y espero poder darte toda la que pueda. No te sientas triste o sola, porque siempre estaré aquí para sacarte una sonrisa.</p>  
+<p>Eres la luz de mis días, mi música favorita, la brisa que siento en mi piel, el calor que necesito en los días fríos, la frescura cuando me estoy quemando, la comodidad cuando estoy tenso, las buenas noticias de mis malos días, mi mejor amiga, mi princesa, mi corazón de melón, todo lo que necesito, todo lo que deseo.</p>  
+<p>No hay forma de describir lo que siento por ti, las palabras no son suficientes, no existe nadie como tú, nadie se te compara. Tuve la suerte de encontrarte entre la improbabilidad. Siento que el universo nos guió hasta aquí, y estoy seguro de que nos llevará mucho más allá de lo que imaginamos.</p>  
+<p>Te amo como no te lo puedes imaginar, de borde a borde del universo, de aquí hasta la luna a pasito de tortuga, hasta que el sol se apague, hasta que mi corazón deje de latir. No, mucho más allá de eso, mucho más allá de la comprensión humana, mucho más allá del tiempo.</p>  
+<p>Te deseo todo lo bueno del mundo.</p>  
+<p>Tu pimpollo <3</p>
+        `;
+
+        document.querySelector('.letter').innerHTML = loveMessage;
+
+        function toggleEnvelope() {
+            const envelope = document.querySelector('.envelope');
+            envelope.classList.toggle('open');
+            setTimeout(() => {
+                envelope.classList.toggle('expanded');
+            }, 500);
+        }
+
+        function openEnvelope() {
+            const envelope = document.querySelector('.envelope');
+            envelope.classList.add('open');
+            setTimeout(() => {
+                envelope.classList.add('expanded');
+            }, 500);
+        }
+
+        function closeEnvelope() {
+            const envelope = document.querySelector('.envelope');
+            envelope.classList.remove('expanded');
+            setTimeout(() => {
+                envelope.classList.remove('open');
+            }, 100);
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function createHearts() {
+            const heartsContainer = document.querySelector('.hearts');
+            const numberOfHearts = 20;
+
+            for (let i = 0; i < numberOfHearts; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-particle');
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.animationDelay = `${Math.random() * 3}s`;
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        createHearts();
+    </script>
+</body>
+</html>
